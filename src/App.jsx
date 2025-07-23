@@ -1,33 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useEffect, useState } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+const Card = ({ title, starPlayers }) => {
+  const [count, setCount] = useState(0);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  useEffect(() => {
+      console.log(`${title} has been liked: ${hasLiked}`);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasLiked]);
+
+  // effect to log whenever the component is rendered
+  useEffect(() => {
+    console.log('CARD RENDERED')
+  }, []);
+
+  return (
+    <div className='card' onClick={() => {setCount(count + 1)}}>
+      <h3>{title} {count || null}</h3>
+      <h4>Star players</h4>
+      <h5>{starPlayers[0]}</h5>
+      <h5>{starPlayers[1]}</h5>
+      <h5>{starPlayers[2]}</h5>
+
+      <button onClick={() => setHasLiked(!hasLiked)}>
+        {hasLiked ? '❤️' : '🩶'}
+      </button>
+    </div>
+  )
+}
+
+const App = () => {
+  
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h2>FootyLog</h2>
+      
+      <div className='card-container'>
+        <Card title="Arsenal" starPlayers={['Saka', 'Rice', 'Odegaard']}/>
+        <Card title="PSG" starPlayers={['Doue', 'Dembele', 'Kvara']}/>
+        <Card title="Barca" starPlayers={['Lamal', 'Pedri', 'Raphina']}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
